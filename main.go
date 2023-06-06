@@ -33,7 +33,6 @@ func LogWarningNihal(dbType, host, port, dbUser, dbPwd, dbName, collectionName s
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
 		log.Printf("failed to ping MongoDB:")
-
 		return nil, nil, nil, fmt.Errorf("failed to connect to MongoDB: %v", err)
 	}
 
@@ -41,7 +40,6 @@ func LogWarningNihal(dbType, host, port, dbUser, dbPwd, dbName, collectionName s
 	err = client.Ping(context.Background(), nil)
 	if err != nil {
 		log.Printf("failed to ping MongoDB:")
-
 		return nil, nil, nil, fmt.Errorf("failed to ping MongoDB: %v", err)
 	}
 	// Access the specified database and collection
