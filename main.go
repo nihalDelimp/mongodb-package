@@ -3,6 +3,7 @@ package mongodbpackage
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -36,4 +37,8 @@ func connectToMongoDB(dbType, host, port, dbUser, dbPwd, dbName, collectionName 
 	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
 
 	return client, collection, ctx, nil
+}
+
+func Logger(message string) {
+	log.Printf("Error %v", message)
 }
