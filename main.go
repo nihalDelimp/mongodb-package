@@ -10,19 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func LogInfo(message string) {
-	log.Printf("Info %v", message)
-}
-
-func LogError(message string) {
-	log.Printf("Error %v", message)
-}
-
-func LogWarning(message string) {
-	log.Printf("Warning %v", message)
-}
-
-func ConnectToMongoDb(dbType, host, port, dbUser, dbPwd, dbName, collectionName string) (*mongo.Client, *mongo.Collection, context.Context, error) {
+func ConnectToMongoDb(dbType, host, port, dbUser, dbPwd, dbName, collectionName string) (*mongo.Client, *mongo.Collection, context.Context, bool, error) {
 	// Construct MongoDB connection URI
 	mongodbURI := dbType + "://" + dbUser + ":" + dbPwd + "@" + host + ":" + port
 
@@ -33,22 +21,23 @@ func ConnectToMongoDb(dbType, host, port, dbUser, dbPwd, dbName, collectionName 
 	client, err := mongo.Connect(context.Background(), clientOptions)
 	if err != nil {
 		log.Printf("failed to ping MongoDB:")
-		return nil, nil, nil, fmt.Errorf("failed to connect to MongoDB: %v", err)
+		return nil, nil, nil, false, fmt.Errorf("failed to connect to MongoDB: %v", err)
 	}
 
 	// Check if the connection was successful
 	err = client.Ping(context.Background(), nil)
 	if err != nil {
 		log.Printf("failed to ping MongoDB:")
-		return nil, nil, nil, fmt.Errorf("failed to ping MongoDB: %v", err)
+		return nil, nil, nil, false, fmt.Errorf("failed to ping MongoDB: %v", err)
 	}
+
 	// Access the specified database and collection
 	db := client.Database(dbName)
 	collection := db.Collection(collectionName)
-	log.Printf("connection Successfull")
+	log.Printf("connection successful")
 
 	// Create a context with a 15-second timeout
 	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
 
-	return client, collection, ctx, nil
+	return client, collection, ctx, true, nil
 }
