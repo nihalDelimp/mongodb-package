@@ -22,7 +22,7 @@ func LogWarning(message string) {
 	log.Printf("Warning %v", message)
 }
 
-func connectToMongoDB(dbType, host, port, dbUser, dbPwd, dbName, collectionName string) (*mongo.Client, *mongo.Collection, context.Context, error) {
+func ConnectToMongoDB(dbType, host, port, dbUser, dbPwd, dbName, collectionName string) (*mongo.Client, *mongo.Collection, context.Context, error) {
 	// Construct MongoDB connection URI
 	mongodbURI := dbType + "://" + dbUser + ":" + dbPwd + "@" + host + ":" + port
 
