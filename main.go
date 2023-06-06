@@ -4,6 +4,6 @@ import (
 	"log"
 )
 
-func Logger(message string) {
-	log.Printf("Error %v", message)
+func LogInfo(message string) {
+	log.Printf("Info %v", message)
 }
